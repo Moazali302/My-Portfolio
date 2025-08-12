@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { siteData } from '../../../content/site.json';
+import { SiteDataService } from '../../core/services/site-data.service';
 
 @Component({
   selector: 'app-footer',
@@ -48,7 +48,16 @@ import { siteData } from '../../../content/site.json';
           <!-- Social Links -->
           <div class="space-y-4">
             <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Connect</h4>
-            <div class="flex space-x-4">
+            <div class="flex flex-col space-y-3">
+              <!-- Phone -->
+              <div class="flex items-center space-x-3">
+                <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                </svg>
+                <span class="text-gray-600 dark:text-gray-400 text-sm">03278031302</span>
+              </div>
+              <!-- Social Icons -->
+              <div class="flex space-x-4">
               <a
                 href="https://github.com/Moazali302"
                 target="_blank"
@@ -61,7 +70,7 @@ import { siteData } from '../../../content/site.json';
                 </svg>
               </a>
               <a
-                href="https://linkedin.com/in/moaz-ali"
+                href="https://linkedin.com/in/muaz-ali"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-300"
@@ -72,7 +81,7 @@ import { siteData } from '../../../content/site.json';
                 </svg>
               </a>
               <a
-                href="mailto:moaz.ali@example.com"
+                href="mailto:moazj048@gmail.com"
                 class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-300"
                 aria-label="Email"
               >
@@ -80,6 +89,7 @@ import { siteData } from '../../../content/site.json';
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                 </svg>
               </a>
+            </div>
             </div>
           </div>
         </div>
@@ -96,6 +106,10 @@ import { siteData } from '../../../content/site.json';
   styles: []
 })
 export class FooterComponent {
-  siteData = siteData;
+  siteData: any;
   currentYear = new Date().getFullYear();
+
+  constructor(private siteDataService: SiteDataService) {
+    this.siteData = this.siteDataService.getSiteData();
+  }
 }

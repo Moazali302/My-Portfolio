@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { siteData } from '../../content/site.json';
+import { SiteDataService } from '../../core/services/site-data.service';
 
 @Component({
   selector: 'app-home',
@@ -91,5 +91,9 @@ import { siteData } from '../../content/site.json';
   styles: []
 })
 export class HomeComponent {
-  siteData = siteData;
+  siteData: any;
+
+  constructor(private siteDataService: SiteDataService) {
+    this.siteData = this.siteDataService.getSiteData();
+  }
 }

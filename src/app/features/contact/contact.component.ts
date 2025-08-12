@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { SupabaseService, ContactMessage } from '../../core/services/supabase.service';
-import { siteData } from '../../content/site.json';
+import { SiteDataService } from '../../core/services/site-data.service';
 
 @Component({
   selector: 'app-contact',
@@ -19,6 +19,22 @@ import { siteData } from '../../content/site.json';
             {{ siteData.contact.description }}
           </p>
           <div class="w-24 h-1 bg-gradient-to-r from-primary-500 to-secondary-500 mx-auto rounded-full mt-6"></div>
+          
+          <!-- Contact Info -->
+          <div class="mt-8 flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-8">
+            <div class="flex items-center space-x-3">
+              <svg class="w-5 h-5 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+              </svg>
+              <span class="text-gray-700 dark:text-gray-300">{{ siteData.contact.phone }}</span>
+            </div>
+            <div class="flex items-center space-x-3">
+              <svg class="w-5 h-5 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+              </svg>
+              <span class="text-gray-700 dark:text-gray-300">{{ siteData.social.email }}</span>
+            </div>
+          </div>
         </div>
 
         <div class="max-w-2xl mx-auto">
@@ -120,12 +136,14 @@ export class ContactComponent {
   submitting = false;
   message = '';
   isSuccess = false;
-  siteData = siteData;
+  siteData: any;
 
   constructor(
     private fb: FormBuilder,
-    private supabaseService: SupabaseService
+    private supabaseService: SupabaseService,
+    private siteDataService: SiteDataService
   ) {
+    this.siteData = this.siteDataService.getSiteData();
     this.contactForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -154,14 +172,14 @@ export class ContactComponent {
       
       if (result && result.data) {
         this.isSuccess = true;
-        this.message = siteData.contact.form.success;
+        this.message = this.siteData.contact.form.success;
         this.contactForm.reset();
       } else {
         throw new Error('Failed to submit message');
       }
     } catch (error) {
       this.isSuccess = false;
-      this.message = siteData.contact.form.error;
+      this.message = this.siteData.contact.form.error;
       console.error('Error submitting contact form:', error);
     } finally {
       this.submitting = false;

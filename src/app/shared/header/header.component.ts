@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
-import { siteData } from '../../../content/site.json';
+import { SiteDataService } from '../../core/services/site-data.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, ThemeToggleComponent],
+  imports: [CommonModule, RouterLink, RouterLinkActive, ThemeToggleComponent],
   template: `
     <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 transition-all duration-300">
       <nav class="container-max px-4 sm:px-6 lg:px-8">
@@ -152,7 +153,11 @@ import { siteData } from '../../../content/site.json';
 })
 export class HeaderComponent {
   isMobileMenuOpen = false;
-  siteData = siteData;
+  siteData: any;
+
+  constructor(private siteDataService: SiteDataService) {
+    this.siteData = this.siteDataService.getSiteData();
+  }
 
   toggleMobileMenu(): void {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
